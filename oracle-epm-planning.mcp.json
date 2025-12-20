@@ -1,0 +1,24 @@
+{
+  "mcpServers": {
+    "planning-agent": {
+      "command": "python",
+      "args": [
+        "-m",
+        "cli.mcp_server"
+      ],
+      "cwd": "C:/Users/ivoss/Downloads/Projetos/agentic/plan-mcp-ag-server",
+      "env": {
+        "PLANNING_MOCK_MODE": "true"
+      }
+    }
+  }
+}
+
+
+
+
+
+
+
+
+

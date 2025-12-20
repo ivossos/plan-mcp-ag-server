@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir:*)",
+      "Bash(npm install)",
+      "Bash(npm run build:*)",
+      "Bash(curl -s -u \"Kannappan.singaram@digitalimscloud.com:Oracle12345!\" \"https://planning-test-lhkchicago.epm.us-ashburn-1.ocs.oraclecloud.com/HyperionPlanning/rest/v3/applications/PlanApp/jobdefinitions\" -H \"Content-Type: application/json\")",
+      "Bash(curl:*)"
+    ]
+  },
+  "disabledMcpjsonServers": [
+    "oracle-epm-fccs"
+  ],
+  "enabledMcpjsonServers": [
+    "oracle-epm-fccs"
+  ],
+  "enableAllProjectMcpServers": true
+}

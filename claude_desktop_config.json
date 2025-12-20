@@ -1,0 +1,36 @@
+{
+  "mcpServers": {
+    "fccs-agent": {
+      "command": "C:/Python313/python.exe",
+      "args": [
+        "-m",
+        "cli.mcp_server"
+      ],
+      "cwd": "C:\\Users\\ivoss\\Downloads\\Projetos\\agentic\\fccs-mcp-ag-server",
+      "env": {
+        "FCCS_MOCK_MODE": "false",
+        "FCCS_URL": "https://venturisupply-venturisupply2024.epm.us-phoenix-1.ocs.oraclecloud.com",
+        "FCCS_USERNAME": "Ravi",
+        "FCCS_PASSWORD": "Winter@12345678",
+        "FCCS_API_VERSION": "v3",
+        "GOOGLE_API_KEY": "AIzaSyAVXS1PYSnDjeFKbKc9QbK7OrLjwuO9MP8"
+      }
+    },
+    "planning-agent": {
+      "command": "C:/Python313/python.exe",
+      "args": [
+        "-m",
+        "cli.mcp_server"
+      ],
+      "cwd": "C:\\Users\\ivoss\\Downloads\\Projetos\\agentic\\plan-mcp-ag-server",
+      "env": {
+        "PLANNING_MOCK_MODE": "false",
+        "PLANNING_URL": "https://your-planning-instance.epm.us-phoenix-1.ocs.oraclecloud.com",
+        "PLANNING_USERNAME": "your_username",
+        "PLANNING_PASSWORD": "your_password",
+        "PLANNING_API_VERSION": "v3",
+        "GOOGLE_API_KEY": "AIzaSyAVXS1PYSnDjeFKbKc9QbK7OrLjwuO9MP8"
+      }
+    }
+  }
+}
