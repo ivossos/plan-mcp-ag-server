@@ -315,7 +315,10 @@ class PlanningClient:
             f"/{app_name}/plantypes/{plan_type}/exportdataslice{self._get_query_params()}",
             json=payload
         )
-        response.raise_for_status()
+        if not response.is_success:
+            error_text = await response.aread()
+            error_msg = f"HTTP {response.status_code}: {error_text.decode('utf-8', errors='ignore')}"
+            response.raise_for_status()  # This will raise, but we've captured the error
         return response.json()
 
     async def copy_data(

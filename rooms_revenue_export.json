@@ -1,0 +1,4 @@
+{
+  "status": "error",
+  "error": "Client error '400 Bad Request' for url 'https://planning-test-lhkchicago.epm.us-ashburn-1.ocs.oraclecloud.com/HyperionPlanning/rest/v3/applications/PlanApp/plantypes/FinPlan/exportdataslice'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400"
+}

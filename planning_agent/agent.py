@@ -17,7 +17,7 @@ from planning_agent.services.rl_service import (
 )
 
 # Import all tool modules
-from planning_agent.tools import application, jobs, dimensions, data, variables, documents, snapshots
+from planning_agent.tools import application, jobs, dimensions, data, variables, documents, snapshots, feedback
 
 # Global state
 _planning_client: Optional[PlanningClient] = None
@@ -163,6 +163,9 @@ TOOL_HANDLERS = {
     "get_documents": documents.get_documents,
     # Snapshots
     "get_snapshots": snapshots.get_snapshots,
+    # Feedback
+    "submit_feedback": feedback.submit_feedback,
+    "get_recent_executions": feedback.get_recent_executions,
 }
 
 # Collect all tool definitions
@@ -173,7 +176,8 @@ ALL_TOOL_DEFINITIONS = (
     data.TOOL_DEFINITIONS +
     variables.TOOL_DEFINITIONS +
     documents.TOOL_DEFINITIONS +
-    snapshots.TOOL_DEFINITIONS
+    snapshots.TOOL_DEFINITIONS +
+    feedback.TOOL_DEFINITIONS
 )
 
 
@@ -449,7 +453,12 @@ Available tools:
 - get_substitution_variables, set_substitution_variable: Manage variables
 - get_documents: Access library documents
 - get_snapshots: List application snapshots
+- submit_feedback, get_recent_executions: Rate tool executions to improve RL learning
 """
+
+
+
+
 
 
 

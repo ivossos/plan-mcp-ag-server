@@ -7,12 +7,20 @@
         "cli.mcp_server"
       ],
       "cwd": "C:/Users/ivoss/Downloads/Projetos/agentic/plan-mcp-ag-server",
-      "env": {
-        "PLANNING_MOCK_MODE": "true"
-      }
+    "env": {
+      "PLANNING_MOCK_MODE": "false",
+      "PLANNING_URL": "https://planning-test-lhkchicago.epm.us-ashburn-1.ocs.oraclecloud.com",
+      "PLANNING_USERNAME": "Kannappan.singaram@digitalimscloud.com",
+      "PLANNING_PASSWORD": "Oracle12345!",
+      "PLANNING_API_VERSION": "v3"
+    }
     }
   }
 }
+
+
+
+
 
 
 
