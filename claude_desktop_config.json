@@ -29,7 +29,8 @@
         "PLANNING_USERNAME": "Kannappan.singaram@digitalimscloud.com",
         "PLANNING_PASSWORD": "Oracle12345!",
         "PLANNING_API_VERSION": "v3",
-        "GOOGLE_API_KEY": "AIzaSyAVXS1PYSnDjeFKbKc9QbK7OrLjwuO9MP8"
+        "GOOGLE_API_KEY": "AIzaSyAVXS1PYSnDjeFKbKc9QbK7OrLjwuO9MP8",
+        "DATABASE_URL": "sqlite:///C:/Users/ivoss/Downloads/Projetos/agentic/plan-mcp-ag-server/planning_agent.db"
       }
     }
   }

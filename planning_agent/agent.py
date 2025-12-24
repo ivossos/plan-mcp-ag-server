@@ -18,6 +18,7 @@ from planning_agent.services.rl_service import (
 
 # Import all tool modules
 from planning_agent.tools import application, jobs, dimensions, data, variables, documents, snapshots, feedback
+from planning_agent.tools.feedback import track_last_execution
 
 # Global state
 _planning_client: Optional[PlanningClient] = None
@@ -165,6 +166,7 @@ TOOL_HANDLERS = {
     # Feedback
     "submit_feedback": feedback.submit_feedback,
     "get_recent_executions": feedback.get_recent_executions,
+    "rate_last_tool": feedback.rate_last_tool,
 }
 
 # Collect all tool definitions
@@ -248,7 +250,11 @@ async def execute_tool(
         # Track execution end (non-blocking)
         # This will also trigger RL policy update via feedback_service callback
         try:
-            execution_id = after_tool_callback(session_id, tool_name, arguments, result)
+            execution_id = after_tool_callback(session_id, tool_name, arguments, result, context_hash)
+            
+            # Track last execution for rate_last_tool
+            if execution_id:
+                track_last_execution(session_id, execution_id, tool_name, context_hash)
 
             # Update RL policy with context if available
             if rl_service and context_hash and execution_id:
@@ -308,7 +314,7 @@ async def execute_tool(
     except Exception as e:
         error_result = {"status": "error", "error": str(e)}
         try:
-            after_tool_callback(session_id, tool_name, arguments, error_result)
+            after_tool_callback(session_id, tool_name, arguments, error_result, context_hash)
         except Exception:
             pass  # Ignore feedback service errors
 
@@ -444,6 +450,13 @@ You help users with:
 Respond in the same language as the user (English or Portuguese).
 Always provide clear explanations of what you're doing and the results.
 
+IMPORTANT - Feedback Collection:
+After completing a tool execution that returns data or performs an action, 
+briefly ask the user: "Was this result helpful?"
+- If they say yes/good/helpful/correct, call rate_last_tool with rating="good"
+- If they say no/bad/wrong/unhelpful, call rate_last_tool with rating="bad"
+This feedback improves future tool recommendations through reinforcement learning.
+
 Available tools:
 - get_application_info: Get Planning application details
 - list_jobs, get_job_status, execute_job: Monitor and execute jobs
@@ -452,7 +465,8 @@ Available tools:
 - get_substitution_variables, set_substitution_variable: Manage variables
 - get_documents: Access library documents
 - get_snapshots: List application snapshots
-- submit_feedback, get_recent_executions: Rate tool executions to improve RL learning
+- rate_last_tool: Quick feedback on last tool (good/bad)
+- submit_feedback, get_recent_executions: Detailed feedback for RL learning
 """
 
 

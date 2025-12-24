@@ -446,6 +446,76 @@ class RLService:
             session.add(episode)
             session.commit()
 
+    def update_policy_with_feedback(
+        self,
+        execution_id: int,
+        rating: int
+    ) -> bool:
+        """Update Q-value retroactively when user feedback arrives.
+        
+        This recalculates the reward with the actual user rating and
+        updates the Q-value with the reward delta.
+        
+        Args:
+            execution_id: The tool execution ID
+            rating: User rating (1-5)
+            
+        Returns:
+            bool: True if update was successful
+        """
+        # Get execution details
+        execution = self.feedback_service.get_execution(execution_id)
+        if not execution:
+            return False
+        
+        # Need context_hash to update the right policy entry
+        context_hash = execution.get("context_hash")
+        if not context_hash:
+            return False
+        
+        tool_name = execution.get("tool_name")
+        success = execution.get("success")
+        execution_time_ms = execution.get("execution_time_ms")
+        
+        # Calculate new reward with actual rating
+        new_reward = self.reward_calculator.calculate_reward({
+            "success": success,
+            "user_rating": rating,
+            "execution_time_ms": execution_time_ms,
+            "tool_name": tool_name
+        })
+        
+        # Calculate old reward (without rating)
+        old_reward = self.reward_calculator.calculate_reward({
+            "success": success,
+            "user_rating": None,
+            "execution_time_ms": execution_time_ms,
+            "tool_name": tool_name
+        })
+        
+        # Calculate reward delta
+        reward_delta = new_reward - old_reward
+        
+        # Update Q-value: Q = Q + alpha * reward_delta
+        with self.Session() as session:
+            policy = session.query(RLPolicy).filter_by(
+                tool_name=tool_name,
+                context_hash=context_hash
+            ).first()
+            
+            if policy:
+                policy.action_value = (policy.action_value or 0.0) + self.learning_rate * reward_delta
+                policy.last_updated = datetime.utcnow()
+                session.commit()
+                
+                # Update cache
+                cache_key = f"{tool_name}:{context_hash}"
+                self._policy_cache[cache_key] = policy.action_value
+                
+                return True
+        
+        return False
+
     def get_successful_sequences(
         self,
         tool_name: Optional[str] = None,

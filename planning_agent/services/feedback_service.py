@@ -32,6 +32,9 @@ class ToolExecution(Base):
     user_rating = Column(Integer, nullable=True)  # 1-5 scale
     user_feedback = Column(String, nullable=True)
 
+    # RL context for retroactive Q-value updates
+    context_hash = Column(String(64), nullable=True, index=True)
+
 
 class ToolMetrics(Base):
     """Aggregated metrics per tool for analysis."""
@@ -64,7 +67,8 @@ class FeedbackService:
         result: Any,
         success: bool,
         error_message: Optional[str],
-        execution_time_ms: float
+        execution_time_ms: float,
+        context_hash: Optional[str] = None
     ) -> int:
         """Log a tool execution and return its ID."""
         try:
@@ -76,7 +80,8 @@ class FeedbackService:
                     result=result if success else None,
                     success=success,
                     error_message=error_message,
-                    execution_time_ms=execution_time_ms
+                    execution_time_ms=execution_time_ms,
+                    context_hash=context_hash
                 )
                 session.add(execution)
                 session.commit()
@@ -111,6 +116,23 @@ class FeedbackService:
 
                 # Update tool's average rating
                 self._update_rating_metrics(session, execution.tool_name)
+
+    def get_execution(self, execution_id: int) -> Optional[dict]:
+        """Get execution details by ID for retroactive RL updates."""
+        with self.Session() as session:
+            execution = session.get(ToolExecution, execution_id)
+            if execution:
+                return {
+                    "id": execution.id,
+                    "session_id": execution.session_id,
+                    "tool_name": execution.tool_name,
+                    "success": execution.success,
+                    "execution_time_ms": execution.execution_time_ms,
+                    "user_rating": execution.user_rating,
+                    "context_hash": execution.context_hash,
+                    "created_at": execution.created_at.isoformat() if execution.created_at else None
+                }
+            return None
 
     def get_tool_metrics(self, tool_name: Optional[str] = None) -> list[dict]:
         """Get aggregated metrics for tools."""
@@ -259,7 +281,8 @@ def after_tool_callback(
     session_id: str,
     tool_name: str,
     args: dict,
-    result: Any
+    result: Any,
+    context_hash: Optional[str] = None
 ) -> Optional[int]:
     """Log tool execution result (call after tool execution).
     
@@ -281,7 +304,8 @@ def after_tool_callback(
                 result=result,
                 success=success,
                 error_message=error_message,
-                execution_time_ms=execution_time_ms
+                execution_time_ms=execution_time_ms,
+                context_hash=context_hash
             )
             
             return execution_id

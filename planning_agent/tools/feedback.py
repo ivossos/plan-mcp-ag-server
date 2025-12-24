@@ -3,6 +3,7 @@
 from typing import Any, Optional
 
 from planning_agent.services.feedback_service import get_feedback_service
+from planning_agent.services.rl_service import get_rl_service
 
 
 async def submit_feedback(
@@ -44,12 +45,22 @@ async def submit_feedback(
             feedback=feedback
         )
         
+        # Update RL policy retroactively with the new rating
+        rl_updated = False
+        rl_service = get_rl_service()
+        if rl_service:
+            try:
+                rl_updated = rl_service.update_policy_with_feedback(execution_id, rating)
+            except Exception:
+                pass  # RL update is optional
+        
         return {
             "status": "success",
             "message": f"Feedback submitted: {rating} stars",
             "execution_id": execution_id,
             "rating": rating,
-            "feedback": feedback
+            "feedback": feedback,
+            "rl_updated": rl_updated
         }
     except Exception as e:
         return {
@@ -114,6 +125,81 @@ async def get_recent_executions(
         }
 
 
+# Global tracking of last execution per session
+_last_executions: dict[str, dict] = {}
+
+
+def track_last_execution(session_id: str, execution_id: int, tool_name: str, context_hash: str = None):
+    """Track the last execution for a session (called from agent.py)."""
+    _last_executions[session_id] = {
+        "execution_id": execution_id,
+        "tool_name": tool_name,
+        "context_hash": context_hash
+    }
+
+
+def get_last_execution(session_id: str) -> dict:
+    """Get the last execution for a session."""
+    return _last_executions.get(session_id, {})
+
+
+async def rate_last_tool(
+    rating: str,
+    session_id: str = "default"
+) -> dict[str, Any]:
+    """Rate the last tool execution with a simple good/bad rating.
+    
+    This is a quick way to provide feedback after a tool execution.
+    Use this after asking the user if the result was helpful.
+    
+    Args:
+        rating: "good" (5 stars), "bad" (1 star), or 1-5 number
+        session_id: Session ID (default: "default")
+    
+    Returns:
+        dict: Status of feedback submission
+    """
+    # Convert rating to numeric
+    rating_map = {"good": 5, "bad": 1, "ok": 3, "great": 5, "poor": 2}
+    
+    if isinstance(rating, str):
+        rating_lower = rating.lower().strip()
+        if rating_lower in rating_map:
+            numeric_rating = rating_map[rating_lower]
+        elif rating_lower.isdigit():
+            numeric_rating = int(rating_lower)
+        else:
+            return {
+                "status": "error",
+                "error": f"Invalid rating: {rating}. Use good/bad or 1-5."
+            }
+    else:
+        numeric_rating = int(rating)
+    
+    if numeric_rating < 1 or numeric_rating > 5:
+        return {
+            "status": "error",
+            "error": f"Rating must be 1-5, got {numeric_rating}"
+        }
+    
+    # Get last execution for this session
+    last_exec = get_last_execution(session_id)
+    if not last_exec:
+        return {
+            "status": "error",
+            "error": "No recent tool execution found to rate"
+        }
+    
+    execution_id = last_exec.get("execution_id")
+    
+    # Submit the feedback
+    return await submit_feedback(
+        execution_id=execution_id,
+        rating=numeric_rating,
+        feedback=f"Quick rating: {rating}"
+    )
+
+
 TOOL_DEFINITIONS = [
     {
         "name": "submit_feedback",
@@ -155,6 +241,26 @@ TOOL_DEFINITIONS = [
                     "default": 10
                 }
             }
+        }
+    },
+    {
+        "name": "rate_last_tool",
+        "description": "Rate the last tool execution with good/bad. Call after asking if the result was helpful.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "rating": {
+                    "type": "string",
+                    "description": "Rating: 'good' (helpful), 'bad' (not helpful), or 1-5",
+                    "enum": ["good", "bad", "ok", "great", "poor", "1", "2", "3", "4", "5"]
+                },
+                "session_id": {
+                    "type": "string",
+                    "description": "Session ID (optional, defaults to 'default')",
+                    "default": "default"
+                }
+            },
+            "required": ["rating"]
         }
     }
 ]
