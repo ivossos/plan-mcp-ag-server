@@ -2,7 +2,7 @@
 
 import asyncio
 import json
-from planning_agent.agent import initialize_agent, execute_tool, get_substitution_variables
+from planning_agent.agent import initialize_agent, execute_tool
 
 async def export_rooms_revenue():
     """Try with substitution variables."""
@@ -13,7 +13,7 @@ async def export_rooms_revenue():
         vars_result = await execute_tool("get_substitution_variables", {})
         print("Substitution Variables:")
         print(json.dumps(vars_result, indent=2))
-    except:
+    except Exception:
         print("Could not get substitution variables")
     
     # Try with common member names that might exist

@@ -74,7 +74,7 @@ async def test_rows_formats():
                     details = error_text.decode('utf-8', errors='ignore')
                     if "row" in details.lower():
                         print(f"Row-related error: {details[:400]}")
-                except:
+                except Exception:
                     pass
     
     await client.close()

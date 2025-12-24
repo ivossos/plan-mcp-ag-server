@@ -6,8 +6,7 @@ from sqlalchemy import create_engine, text
 from sqlalchemy.exc import OperationalError
 
 from planning_agent.config import PlanningConfig
-from planning_agent.services.feedback_service import Base, FeedbackService
-from planning_agent.services.rl_service import Base as RLBase
+from planning_agent.services.feedback_service import FeedbackService
 
 
 def validate_database_name(name: str) -> bool:
@@ -124,7 +123,7 @@ def init_schema(db_url: str) -> bool:
         
         # Initialize RL service tables
         from planning_agent.services.rl_service import RLService
-        rl_service = RLService(feedback_service, db_url)
+        RLService(feedback_service, db_url)
         
         print("Database schema initialized successfully.")
         print("Created tables:")

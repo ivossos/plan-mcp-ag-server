@@ -10,7 +10,7 @@ try:
     config = PlanningConfig()
     db_url = config.database_url
     
-    print(f"[INFO] Testing PostgreSQL connection...")
+    print("[INFO] Testing PostgreSQL connection...")
     print(f"   Database URL: {db_url.split('@')[1] if '@' in db_url else '***'}")
     
     # Create engine
@@ -21,7 +21,7 @@ try:
         # Test basic query
         result = conn.execute(text("SELECT version()"))
         version = result.fetchone()[0]
-        print(f"[OK] PostgreSQL connection successful!")
+        print("[OK] PostgreSQL connection successful!")
         print(f"   PostgreSQL version: {version.split(',')[0]}")
         
         # Test database name
@@ -39,11 +39,11 @@ try:
         tables = [row[0] for row in result.fetchall()]
         
         if tables:
-            print(f"\n[INFO] Existing tables in database:")
+            print("\n[INFO] Existing tables in database:")
             for table in tables:
                 print(f"   - {table}")
         else:
-            print(f"\n[INFO] No tables found. Run 'python scripts/init_db.py' to initialize schema.")
+            print("\n[INFO] No tables found. Run 'python scripts/init_db.py' to initialize schema.")
     
     engine.dispose()
     print("\n[OK] All PostgreSQL tests passed! The Planning project is ready to use PostgreSQL.")

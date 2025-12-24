@@ -46,7 +46,7 @@ async def test_working():
             try:
                 error_text = await e.response.aread()
                 print(f"Details: {error_text.decode('utf-8', errors='ignore')}")
-            except:
+            except Exception:
                 pass
         await client.close()
         return None

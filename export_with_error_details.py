@@ -45,7 +45,7 @@ async def export_with_details():
             try:
                 error_body = e.response.json()
                 print(f"Error details: {json.dumps(error_body, indent=2)}")
-            except:
+            except Exception:
                 print(f"Response text: {e.response.text}")
     finally:
         await client.close()

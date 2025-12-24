@@ -76,7 +76,6 @@ def create_mcp_server() -> Server:
     @server.list_prompts()
     async def list_prompts() -> list[Prompt]:
         """List available prompts/instructions."""
-        from planning_agent.agent import AGENT_INSTRUCTION
         return [
             Prompt(
                 name="planning_agent_instructions",

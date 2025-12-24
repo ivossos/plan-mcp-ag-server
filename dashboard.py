@@ -5,8 +5,7 @@ import sys
 from pathlib import Path
 import pandas as pd
 import plotly.express as px
-import plotly.graph_objects as go
-from datetime import datetime, timedelta
+from datetime import datetime
 
 # Add current directory to path
 sys.path.insert(0, str(Path(__file__).parent))
@@ -14,11 +13,9 @@ sys.path.insert(0, str(Path(__file__).parent))
 from planning_agent.config import config
 from planning_agent.services.feedback_service import (
     init_feedback_service,
-    get_feedback_service,
 )
 from planning_agent.services.rl_service import (
     init_rl_service,
-    get_rl_service,
 )
 
 
@@ -39,7 +36,7 @@ def init_dashboard():
                     discount_factor=config.rl_discount_factor,
                     min_samples=config.rl_min_samples
                 )
-            except Exception as e:
+            except Exception:
                 # RL service initialization is optional
                 pass
         
@@ -97,7 +94,7 @@ def run_dashboard():
         st.header("⚙️ Configuration")
         
         # Time range filter
-        time_range = st.selectbox(
+        st.selectbox(
             "Time Range",
             ["All Time", "Last 24 Hours", "Last 7 Days", "Last 30 Days"],
             index=0
@@ -105,7 +102,7 @@ def run_dashboard():
         
         # Tool filter
         st.subheader("Filters")
-        show_all_tools = st.checkbox("Show All Tools", value=True)
+        st.checkbox("Show All Tools", value=True)
         
         st.markdown("---")
         st.header("ℹ️ Info")

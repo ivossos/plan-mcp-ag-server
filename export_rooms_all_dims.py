@@ -38,7 +38,7 @@ async def export_rooms_revenue():
     }
     
     print("Trying all 11 dimensions in order...")
-    print(f"POV order: Account, Entity, Period, Scenario, Years, View, ICP, Data Source, Movement, Multi-GAAP, Consolidation")
+    print("POV order: Account, Entity, Period, Scenario, Years, View, ICP, Data Source, Movement, Multi-GAAP, Consolidation")
     
     try:
         result = await execute_tool("export_data_slice", arguments)

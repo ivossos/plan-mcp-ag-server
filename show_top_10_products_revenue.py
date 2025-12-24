@@ -36,7 +36,7 @@ def load_revenue_accounts_from_csv():
             print(f"Successfully read {row_count} rows from CSV")
         
         if not accounts:
-            print(f"WARNING: Could not read CSV file with any encoding")
+            print("WARNING: Could not read CSV file with any encoding")
             return []
         
         print(f"Loaded {len(accounts)} total accounts from CSV")
@@ -211,7 +211,7 @@ async def get_top_10_products():
             with open("top_10_products_revenue.json", "w", encoding="utf-8") as f:
                 json.dump(output_data, f, indent=2, ensure_ascii=False)
             
-            print(f"\n[SUCCESS] Results saved to: top_10_products_revenue.json")
+            print("\n[SUCCESS] Results saved to: top_10_products_revenue.json")
             print(f"[SUCCESS] Total products with revenue data: {len(products)}")
             
             return result

@@ -138,7 +138,7 @@ async def get_top_products():
                     "revenue_accounts_used": revenue_accounts
                 }, f, indent=2, ensure_ascii=False)
             
-            print(f"\nResults saved to: top_products_revenue.json")
+            print("\nResults saved to: top_products_revenue.json")
             return result
         else:
             print(f"Error: {result.get('error')}")

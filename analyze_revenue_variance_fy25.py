@@ -4,7 +4,7 @@ import asyncio
 import csv
 import json
 from pathlib import Path
-from typing import Optional, Dict, List
+from typing import Optional, List
 from planning_agent.agent import initialize_agent, execute_tool
 
 # Load dimensions from local CSV files
@@ -39,7 +39,7 @@ def load_currencies_from_csv() -> List[str]:
                             if currency and currency != currency_col:
                                 currencies.append(currency)
                     break
-            except Exception as e:
+            except Exception:
                 if encoding == encodings[-1]:
                     raise
                 continue
@@ -63,7 +63,7 @@ def load_costcenters_from_csv() -> List[str]:
                             if cc and cc != cc_col:
                                 costcenters.append(cc)
                     break
-            except Exception as e:
+            except Exception:
                 if encoding == encodings[-1]:
                     raise
                 continue
@@ -87,7 +87,7 @@ def load_versions_from_csv() -> List[str]:
                             if version and version != version_col:
                                 versions.append(version)
                     break
-            except Exception as e:
+            except Exception:
                 if encoding == encodings[-1]:
                     raise
                 continue
@@ -111,7 +111,7 @@ def load_regions_from_csv() -> List[str]:
                             if region and region != region_col:
                                 regions.append(region)
                     break
-            except Exception as e:
+            except Exception:
                 if encoding == encodings[-1]:
                     raise
                 continue
@@ -135,7 +135,7 @@ def load_future1_from_csv() -> List[str]:
                             if future1 and future1 != future1_col:
                                 future1_members.append(future1)
                     break
-            except Exception as e:
+            except Exception:
                 if encoding == encodings[-1]:
                     raise
                 continue
@@ -245,7 +245,7 @@ async def get_revenue_value(
                         error_json = json_lib.loads(error_msg.split("{")[1].split("}")[0] if "}" in error_msg else error_msg)
                         if "detail" in error_json:
                             print(f"    Detail: {error_json['detail'][:300]}")
-                except:
+                except Exception:
                     pass
             print(f"    Error: {error_msg[:400]}")
     except Exception as e:
@@ -372,7 +372,7 @@ async def analyze_revenue_variance():
     total_entity = results.get(list(results.keys())[0], {}) if results else {}
     if total_entity.get("variance_vs_fy24"):
         var = total_entity["variance_vs_fy24"]
-        print(f"Total Revenue Variance (FY25 vs FY24):")
+        print("Total Revenue Variance (FY25 vs FY24):")
         print(f"  Amount: ${var['amount']:,.2f}")
         print(f"  Percent: {var['percent']:.2f}%")
         print()

@@ -79,7 +79,7 @@ async def debug_export():
                     error_json = json.loads(error_details)
                     print("\nParsed Error JSON:")
                     print(json.dumps(error_json, indent=2, ensure_ascii=False))
-                except:
+                except Exception:
                     pass
             except Exception as ex:
                 print(f"Could not read error details: {ex}")

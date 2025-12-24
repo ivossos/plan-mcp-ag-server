@@ -2,8 +2,8 @@
 
 import sys
 from planning_agent.config import config
-from planning_agent.services.feedback_service import init_feedback_service, get_feedback_service
-from planning_agent.services.rl_service import init_rl_service, get_rl_service
+from planning_agent.services.feedback_service import init_feedback_service
+from planning_agent.services.rl_service import init_rl_service
 
 def print_section(title: str):
     """Print a section header."""

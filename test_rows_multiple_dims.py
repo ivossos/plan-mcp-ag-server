@@ -81,7 +81,7 @@ async def test_rows_multiple():
                             print(f"Row error: {details[:300]}")
                         else:
                             print(f"Error: {details[:300]}")
-                    except:
+                    except Exception:
                         print(f"Error: {error_msg[:300]}")
                 else:
                     print(f"Error: {error_msg[:300]}")

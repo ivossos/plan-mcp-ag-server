@@ -67,7 +67,7 @@ async def test_10_dims():
                 error_text = await e.response.aread()
                 details = error_text.decode('utf-8', errors='ignore')
                 print(f"Details: {details}")
-            except:
+            except Exception:
                 pass
         await client.close()
         return None

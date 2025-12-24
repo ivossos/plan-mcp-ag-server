@@ -2,7 +2,6 @@
 
 from typing import Any, Optional
 
-from planning_agent.config import config
 from planning_agent.services.feedback_service import get_feedback_service
 
 

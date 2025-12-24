@@ -256,7 +256,7 @@ async def get_rl_recommendations(request: dict):
         return {"recommendations": [], "note": "RL service not available"}
 
     user_query = request.get("query", "")
-    session_id = request.get("session_id", "default")
+    request.get("session_id", "default")
     previous_tool = request.get("previous_tool")
     session_length = request.get("session_length", 0)
 

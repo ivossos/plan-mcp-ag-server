@@ -84,7 +84,7 @@ async def test_with_dim_names():
                     error_text = await e.response.aread()
                     details = error_text.decode('utf-8', errors='ignore')
                     if "dimension" in details.lower() and "not recognized" in details.lower():
-                        print(f"[ERROR] Dimension field not recognized - this format is wrong")
+                        print("[ERROR] Dimension field not recognized - this format is wrong")
                     elif "detail" in details:
                         import re
                         detail_match = re.search(r'"detail":"([^"]+)"', details)
@@ -94,7 +94,7 @@ async def test_with_dim_names():
                             print(f"[ERROR] {details[:300]}")
                     else:
                         print(f"[ERROR] {details[:300]}")
-                except:
+                except Exception:
                     print(f"[ERROR] {error_msg[:300]}")
             else:
                 print(f"[ERROR] {error_msg[:300]}")

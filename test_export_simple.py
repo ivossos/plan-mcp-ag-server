@@ -135,7 +135,7 @@ async def test_export():
                         "all_products": products
                     }, f, indent=2, ensure_ascii=False)
                 
-                print(f"\n[SUCCESS] Results saved to: top_10_products_result.json")
+                print("\n[SUCCESS] Results saved to: top_10_products_result.json")
                 return result_2
             else:
                 print(f"[ERROR] Test 2 failed: {result_2.get('error')}")

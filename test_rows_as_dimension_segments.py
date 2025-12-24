@@ -126,7 +126,7 @@ async def test_dimension_segments():
                             print(f"[ERROR] {error_match.group(1)[:400]}")
                         else:
                             print(f"[ERROR] {details[:400]}")
-                except Exception as ex:
+                except Exception:
                     print(f"[ERROR] {error_msg[:300]}")
             else:
                 print(f"[ERROR] {error_msg[:300]}")

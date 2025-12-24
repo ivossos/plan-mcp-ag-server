@@ -35,12 +35,12 @@ async def export_rooms_revenue():
     print("="*60)
     print("EXPORTING ROOMS REVENUE WITH FY25")
     print("="*60)
-    print(f"Account: 410000")
-    print(f"Entity: FCCS_Total Geography")
-    print(f"Scenario: Actual")
-    print(f"Years: FY25 (from substitution variables)")
-    print(f"Period: May (current month)")
-    print(f"View: YTD")
+    print("Account: 410000")
+    print("Entity: FCCS_Total Geography")
+    print("Scenario: Actual")
+    print("Years: FY25 (from substitution variables)")
+    print("Period: May (current month)")
+    print("View: YTD")
     print()
     
     try:

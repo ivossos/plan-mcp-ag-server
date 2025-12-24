@@ -61,7 +61,7 @@ async def test_final_format():
                 error_text = await e.response.aread()
                 error_details = error_text.decode('utf-8', errors='ignore')
                 print(f"Error details: {error_details}")
-            except:
+            except Exception:
                 pass
         await client.close()
         return None

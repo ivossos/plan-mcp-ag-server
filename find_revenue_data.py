@@ -1,7 +1,6 @@
 """Find where revenue data exists by trying different periods and parent accounts."""
 
 import asyncio
-import json
 import sys
 from planning_agent.client.planning_client import PlanningClient
 from planning_agent.config import load_config
@@ -99,7 +98,7 @@ async def find_revenue_data():
                         print(f"[ERROR] {detail_match.group(1)[:200]}")
                     else:
                         print(f"[ERROR] {error_msg[:200]}")
-                except:
+                except Exception:
                     print(f"[ERROR] {error_msg[:200]}")
             else:
                 print(f"[ERROR] {error_msg[:200]}")

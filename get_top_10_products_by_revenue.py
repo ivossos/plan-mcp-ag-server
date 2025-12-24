@@ -1,7 +1,6 @@
 """Get top 10 products by revenue using the correct Planning format."""
 
 import asyncio
-import json
 import sys
 import csv
 from planning_agent.client.planning_client import PlanningClient
@@ -125,7 +124,7 @@ async def get_top_10_products():
                 detail_match = re.search(r'"detail":"([^"]+)"', details)
                 if detail_match:
                     print(f"Details: {detail_match.group(1)[:500]}")
-            except:
+            except Exception:
                 pass
         await client.close()
         return None

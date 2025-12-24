@@ -48,12 +48,12 @@ async def export_rooms_revenue():
     print("="*60)
     print("EXPORTING ROOMS REVENUE DATA")
     print("="*60)
-    print(f"Account: 410000 (Rooms Revenue)")
-    print(f"Plan Type: FinPlan")
-    print(f"Entity: FCCS_Total Geography")
-    print(f"Scenario: Actual")
-    print(f"Years: FY24")
-    print(f"Periods: Jan through Dec")
+    print("Account: 410000 (Rooms Revenue)")
+    print("Plan Type: FinPlan")
+    print("Entity: FCCS_Total Geography")
+    print("Scenario: Actual")
+    print("Years: FY24")
+    print("Periods: Jan through Dec")
     print()
     
     try:

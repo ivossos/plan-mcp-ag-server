@@ -2,7 +2,6 @@
 
 import asyncio
 import json
-import sys
 
 from planning_agent.agent import initialize_agent, close_agent, execute_tool
 

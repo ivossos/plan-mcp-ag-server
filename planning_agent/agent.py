@@ -63,7 +63,7 @@ async def initialize_agent(cfg: Optional[PlanningConfig] = None) -> str:
                 use_config.planning_mock_mode = True
                 _planning_client = PlanningClient(use_config)
                 print("Switched to mock mode due to missing credentials", file=sys.stderr)
-            except Exception as fallback_error:
+            except Exception:
                 raise RuntimeError(f"Planning client initialization failed: {error_msg}") from e
         else:
             # If already in mock mode but still failed, re-raise
@@ -87,7 +87,6 @@ async def initialize_agent(cfg: Optional[PlanningConfig] = None) -> str:
         print(f"Warning: Could not initialize feedback service: {e}", file=sys.stderr)
         print("Tool execution will continue without feedback tracking", file=sys.stderr)
         # Set feedback service to None so callbacks know it's not available
-        from planning_agent.services.feedback_service import _feedback_service
         import planning_agent.services.feedback_service as feedback_module
         feedback_module._feedback_service = None
 

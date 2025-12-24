@@ -80,7 +80,7 @@ async def test_correct_order():
                         print(f"Details: {details[:500]}")
                 else:
                     print(f"Details: {details[:500]}")
-            except:
+            except Exception:
                 pass
         await client.close()
         return None

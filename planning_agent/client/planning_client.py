@@ -317,7 +317,7 @@ class PlanningClient:
         )
         if not response.is_success:
             error_text = await response.aread()
-            error_msg = f"HTTP {response.status_code}: {error_text.decode('utf-8', errors='ignore')}"
+            f"HTTP {response.status_code}: {error_text.decode('utf-8', errors='ignore')}"
             response.raise_for_status()  # This will raise, but we've captured the error
         return response.json()
 

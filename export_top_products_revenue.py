@@ -118,7 +118,7 @@ async def export_top_products_revenue():
                     "top_10_products": products_revenue[:10],
                     "full_data": result
                 }, f, indent=2, ensure_ascii=False)
-            print(f"\nFull data saved to: top_products_revenue.json")
+            print("\nFull data saved to: top_products_revenue.json")
         else:
             print(json.dumps(result, indent=2, ensure_ascii=False))
         

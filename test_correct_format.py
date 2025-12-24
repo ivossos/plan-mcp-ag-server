@@ -120,7 +120,7 @@ async def test_correct_format():
                 plan_type,
                 test_format['grid_definition']
             )
-            print(f"[SUCCESS]")
+            print("[SUCCESS]")
             print(f"Result keys: {list(result.keys())}")
             
             if result.get("rows"):

@@ -50,8 +50,8 @@ async def test_export_rooms_revenue():
     }
     
     print("\nExporting Rooms Revenue data...")
-    print(f"Plan Type: FinPlan")
-    print(f"Account: 410000 (Rooms Revenue)")
+    print("Plan Type: FinPlan")
+    print("Account: 410000 (Rooms Revenue)")
     print(f"Grid Definition: {json.dumps(grid_definition, indent=2)}")
     
     try:

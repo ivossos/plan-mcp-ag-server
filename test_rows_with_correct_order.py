@@ -93,7 +93,7 @@ async def test_rows_correct_order():
                             print(f"[ERROR] {details[:300]}")
                     else:
                         print(f"[ERROR] {details[:300]}")
-                except:
+                except Exception:
                     print(f"[ERROR] {error_msg[:300]}")
             else:
                 print(f"[ERROR] {error_msg[:300]}")

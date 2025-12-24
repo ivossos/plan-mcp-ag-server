@@ -3,13 +3,13 @@
 import hashlib
 import json
 from datetime import datetime
-from typing import Any, Optional, Dict, List
+from typing import Optional
 
 import numpy as np
 from sqlalchemy import Column, Integer, String, Float, DateTime, JSON, create_engine, UniqueConstraint
 from sqlalchemy.orm import declarative_base, sessionmaker
 
-from planning_agent.services.feedback_service import FeedbackService, ToolExecution
+from planning_agent.services.feedback_service import FeedbackService
 
 Base = declarative_base()
 

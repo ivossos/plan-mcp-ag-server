@@ -95,7 +95,7 @@ async def debug_api_call():
                 plan_type,
                 test_format['grid_definition']
             )
-            print(f"SUCCESS!")
+            print("SUCCESS!")
             print(f"Result keys: {list(result.keys())}")
             if result.get("rows"):
                 print(f"Rows: {len(result['rows'])}")
@@ -110,7 +110,7 @@ async def debug_api_call():
                 try:
                     error_text = await e.response.aread()
                     print(f"Error details: {error_text.decode('utf-8', errors='ignore')[:500]}")
-                except:
+                except Exception:
                     pass
         
         print()
