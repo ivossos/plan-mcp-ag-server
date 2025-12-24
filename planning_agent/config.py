@@ -15,9 +15,9 @@ class PlanningConfig(BaseSettings):
     planning_api_version: str = Field("v3", alias="PLANNING_API_VERSION")
     planning_mock_mode: bool = Field(False, alias="PLANNING_MOCK_MODE")
 
-    # Database (PostgreSQL for sessions + feedback)
+    # Database (SQLite for sessions + feedback + RL)
     database_url: str = Field(
-        "postgresql+psycopg://postgres:password@localhost:5432/planning_agent",
+        "sqlite:///./planning_agent.db",
         alias="DATABASE_URL"
     )
 
@@ -66,7 +66,7 @@ except Exception as e:
     # Create a new config instance with mock mode enabled
     config = PlanningConfig(
         planning_mock_mode=True,
-        database_url="postgresql+psycopg://postgres:password@localhost:5432/planning_agent"
+        database_url="sqlite:///./planning_agent.db"
     )
 
 
